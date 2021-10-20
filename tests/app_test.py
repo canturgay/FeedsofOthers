@@ -5,4 +5,4 @@ def test_index():
     response = tester.get("/", content_type="html/text")
 
     assert response.status_code == 200
-    assert response.data == "Hello, World!"
+    assert response.data == b"Hello, World!"

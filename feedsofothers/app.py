@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv, finddotenv
 
-# local import
-from instance.config import app_config
+# env var set
+load_dotenv(finddotenv())
+
 
 # initialize sql-alchemy
 db = SQLAlchemy()

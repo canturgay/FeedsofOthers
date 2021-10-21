@@ -1,22 +1,16 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+import os
+from models import db
 
-# env var set
-load_dotenv(finddotenv())
 
-# initialize sql-alchemy
-db = SQLAlchemy()
-
-# create and initialize a new Flask app
-app = Flask(__name__)
-
-#configurations
-config = {
-    "development": "bookshelf.config.devConfig",
-    "testing": "bookshelf.config.testConfig",
-}
 
 def configure_app(app):
+    #configurations
+    config = {
+        "development": "config.devConfig",
+        "testing": "config.testConfig",
+    }
+
     #Determine the configuration file to read using environment variables
     config_name = os.getenv('FLASK_CONFIGURATION', 'development')
     
@@ -26,6 +20,9 @@ def configure_app(app):
     #Overwrite sensitive settings with the settings in the instance folder
     app.config.from_pyfile('config.cfg', silent=True)
 
+app = Flask(__name__)
+configure_app(app)
+db.init_app(app)
 
 #routing
 @app.route("/")

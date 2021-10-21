@@ -1,6 +1,6 @@
 from flask import Flask
 import os
-from feedsofothers.models import db
+from feedsofothers.models import db, User
 from dotenv import load_dotenv
 
 def configure_app(app):

@@ -3,7 +3,7 @@ USE 'feedsofothers'
 
 CREATE TABLE 'user' (
     'user_id' INT(11) PRIMARY KEY AUTO_INCREMENT,
-    'created' DATETIME DEFAULT CURRENT_TIMESTAMP(),
+    'created_at' DATETIME DEFAULT CURRENT_TIMESTAMP(),
     'last_sync' DATETIME DEFAULT CURRENT_TIMESTAMP(),
     'last_load' JSON,
 );

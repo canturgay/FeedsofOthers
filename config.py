@@ -3,12 +3,11 @@ class Config(object):
     DEBUG = False
 
 class devConfig(Config):
-    FLASK_ENV = 'development'
     TESTING = True
     DB_SERVER = 'localserver'
     DATABASE_URI = ''
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-
 class testConfig(Config):
     DB_SERVER = ''
     DATABASE_URI = ''

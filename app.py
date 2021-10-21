@@ -1,7 +1,7 @@
 from flask import Flask
 import os
 from feedsofothers.models import db
-
+from dotenv import load_dotenv
 
 def configure_app(app):
     #configurations
@@ -19,6 +19,7 @@ def configure_app(app):
     #Overwrite sensitive settings with the settings in the instance folder
     app.config.from_pyfile('config.cfg', silent=True)
 
+load_dotenv()
 app = Flask(__name__)
 configure_app(app)
 db.init_app(app)

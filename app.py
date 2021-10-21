@@ -39,8 +39,7 @@ def user_records():
     db.session.add(new_user)  
     db.session.commit()  
     users=User.query.all()
-    return render_template(
-        'index.html', page_title='Feeds of Others', users = users)
+    return render_template('index.html', page_title='Feeds of Others')
 
 
 if __name__ == "__main__":

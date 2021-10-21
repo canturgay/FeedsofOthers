@@ -23,11 +23,20 @@ load_dotenv()
 app = Flask(__name__)
 configure_app(app)
 db.init_app(app)
+with app.app_context():
+        db.create_all()  # Create sql tables for our data models
+
 
 #routing
-@app.route("/")
-def hello():
-    return "Hello, World!"
+@app.route("/", methods=['GET'])
+def user_records():
+    """Create a user"""
+    new_user = User(
+        last_load = {"key1": [1, 2, 3], "key2": [4, 5, 6]}
+    )
+    db.session.add(new_user)  # Adds new User record to database
+    db.session.commit()  # Commits all changes
+    return "successfully created!"
 
 
 if __name__ == "__main__":

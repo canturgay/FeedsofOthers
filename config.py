@@ -12,4 +12,5 @@ class devConfig(Config):
     
 class prodConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
-    pass
+    TESTING = False
+    

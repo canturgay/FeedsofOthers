@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from os import getenv
 from feedsofothers.models import db, User
 from dotenv import load_dotenv
@@ -20,23 +20,27 @@ def configure_app(app):
     app.config.from_pyfile('config.cfg', silent=True)
 
 load_dotenv()
+
 app = Flask(__name__)
+
 configure_app(app)
+
 db.init_app(app)
+
 with app.app_context():
-        db.create_all()  # Create sql tables for our data models
+    db.create_all()  # Create sql tables for our data models
 
 
 #routing
 @app.route("/", methods=['GET'])
 def user_records():
     """Create a user"""
-    new_user = User(
-        last_load = {"key1": [1, 2, 3], "key2": [4, 5, 6]}
-    )
-    db.session.add(new_user)  # Adds new User record to database
-    db.session.commit()  # Commits all changes
-    return "successfully created!"
+    new_user = User(last_load = {"key1": [1, 2, 3], "key2": [4, 5, 6]})
+    db.session.add(new_user)  
+    db.session.commit()  
+    users=User.query.all()
+    return render_template(
+        'index.html', page_title='Feeds of Others', users = users)
 
 
 if __name__ == "__main__":

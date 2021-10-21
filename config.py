@@ -1,3 +1,5 @@
+import os
+
 class Config(object):
     TESTING = False
     DEBUG = False
@@ -5,7 +7,9 @@ class Config(object):
 
 class devConfig(Config):
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
     
     
 class prodConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URI')
     pass

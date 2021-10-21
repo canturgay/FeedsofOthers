@@ -8,11 +8,13 @@ class Config(object):
 
 class devConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URI')
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = getenv('TEST_DATABASE_URI')
 
     
 class prodConfig(Config):
     SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URI')
+    DEBUG = False
     TESTING = False
 
    

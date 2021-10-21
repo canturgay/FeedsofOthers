@@ -6,6 +6,3 @@ def test_index():
 
     assert response.status_code == 200, 304
     assert response.data == b"Hello, World!"
-
-def test_db():
-    connection = 

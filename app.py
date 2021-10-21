@@ -11,7 +11,7 @@ def configure_app(app):
     }
 
     #Determine the configuration file to read using environment variables
-    config_name = getenv('FLASK_CONFIGURATION')
+    config_name = getenv('FLASK_CONFIGURATION', 'development')
     
     #Read settings as objects
     app.config.from_object(config[config_name])

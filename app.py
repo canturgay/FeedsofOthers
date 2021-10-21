@@ -19,9 +19,11 @@ def configure_app(app):
     #Overwrite sensitive settings with the settings in the instance folder
     app.config.from_pyfile('config.cfg', silent=True)
 
-load_dotenv()
+
 
 app = Flask(__name__)
+
+load_dotenv()
 
 configure_app(app)
 

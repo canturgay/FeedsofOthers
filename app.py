@@ -1,5 +1,5 @@
 from flask import Flask
-import os
+from os import getenv
 from feedsofothers.models import db, User
 from dotenv import load_dotenv
 
@@ -11,7 +11,7 @@ def configure_app(app):
     }
 
     #Determine the configuration file to read using environment variables
-    config_name = os.getenv('FLASK_CONFIGURATION')
+    config_name = getenv('FLASK_CONFIGURATION')
     
     #Read settings as objects
     app.config.from_object(config[config_name])

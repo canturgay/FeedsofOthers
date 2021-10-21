@@ -1,7 +1,6 @@
 from flask import Flask
 import os
-from models import db
-
+from feedsofothers.models import db
 
 
 def configure_app(app):

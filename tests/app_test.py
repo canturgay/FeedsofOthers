@@ -1,4 +1,4 @@
-from feedsofothers.app import app
+from app import app
 
 def test_index():
     tester = app.test_client()

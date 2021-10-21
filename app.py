@@ -3,8 +3,11 @@ from os import getenv
 from feedsofothers.models import db, User
 from dotenv import load_dotenv
 
+
+
 def configure_app(app):
     #configurations
+    load_dotenv()
     configure = {
         "development": "config.devConfig",
         "production": "config.prodConfig",
@@ -19,18 +22,17 @@ def configure_app(app):
     #Overwrite sensitive settings with the settings in the instance folder
     app.config.from_pyfile('config.cfg', silent=True)
 
+    return app.config
 
+def create_app():
+    app = Flask(__name__)
+    configure_app(app)  
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()  
+    return app
 
-app = Flask(__name__)
-
-load_dotenv()
-
-configure_app(app)
-
-db.init_app(app)
-
-with app.app_context():
-    db.create_all()  # Create sql tables for our data models
+app = create_app()
 
 
 #routing

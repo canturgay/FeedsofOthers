@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 def configure_app(app):
     #configurations
-    config = {
+    configure = {
         "development": "config.devConfig",
         "production": "config.prodConfig",
     }
@@ -14,7 +14,7 @@ def configure_app(app):
     config_name = getenv('FLASK_CONFIGURATION', 'development')
     
     #Read settings as objects
-    app.config.from_object(config[config_name])
+    app.config.from_object(configure[config_name])
     
     #Overwrite sensitive settings with the settings in the instance folder
     app.config.from_pyfile('config.cfg', silent=True)

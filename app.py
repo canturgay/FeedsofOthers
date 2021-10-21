@@ -7,11 +7,11 @@ def configure_app(app):
     #configurations
     config = {
         "development": "config.devConfig",
-        "testing": "config.testConfig",
+        "production": "config.prodConfig",
     }
 
     #Determine the configuration file to read using environment variables
-    config_name = os.getenv('FLASK_CONFIGURATION', 'development')
+    config_name = os.getenv('FLASK_CONFIGURATION')
     
     #Read settings as objects
     app.config.from_object(config[config_name])

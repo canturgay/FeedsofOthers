@@ -1,8 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.declarative import declarative_base
 
 db = SQLAlchemy()
 
-class User(db.Model):
+Base = declarative_base()
+
+class User(Base):
     __tablename__ = 'user'
     user_id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime,  default=db.func.current_timestamp())

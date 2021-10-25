@@ -22,7 +22,7 @@ def setup_database(connection):
 @pytest.fixture
 def db_session(setup_database, connection):
     transaction = connection.begin()
-    yield models.db.scoped_session(models.db.sessionmaker(autocommit=False, autoflush=False, bind=connection))
+    yield models.db.scoped_session(models.db.sessionmaker(autocommit=True, autoflush=True, bind=connection))
     transaction.rollback()
 
 with app.test_client() as tester:
@@ -32,11 +32,12 @@ with app.test_client() as tester:
             assert response.status_code == 200, 304
 
     def test_db_add_user(db_session):
+        session = db_session
         new_user = User(last_load = {"key1": [1, 2, 3], "key2": [4, 5, 6]})
-        db_session.add(new_user)
-        db_session.commit
-        last = db_session.query(User).all()
-        assert last.pop() == new_user
+        session.add(new_user)
+        session.commit
+        last = session.query(User).first()
+        assert last == new_user
 
     
 

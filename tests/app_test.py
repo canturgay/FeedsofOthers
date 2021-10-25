@@ -33,7 +33,7 @@ with app.test_client() as tester:
 
     def test_db_add_user(db_session):
         session = db_session
-        new_user = User(last_load = {"key1": [1, 2, 3], "key2": [4, 5, 6]})
+        new_user = User(last_load = {"key1": [2, 3, 1], "key2": [4, 5, 6]})
         session.add(new_user)
         last = session.query(User).first()
         assert last == new_user

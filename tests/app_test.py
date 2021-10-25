@@ -35,7 +35,6 @@ with app.test_client() as tester:
         session = db_session
         new_user = User(last_load = {"key1": [1, 2, 3], "key2": [4, 5, 6]})
         session.add(new_user)
-        session.commit
         last = session.query(User).first()
         assert last == new_user
 

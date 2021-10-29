@@ -4,6 +4,7 @@ import pytest
 from os import getenv
 from feedsofothers import models
 from feedsofothers.models import db , User
+from datetime import datetime
 
 @pytest.fixture(scope="session")
 def connection():
@@ -37,6 +38,8 @@ with app.test_client() as tester:
         session.add(new_user)
         last = session.query(User).first()
         assert last == new_user
+        last_created_at = session.query(User).with_entities(User.created_at)
+        assert last_created_at == datetime.now()
 
     
 

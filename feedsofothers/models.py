@@ -8,6 +8,11 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'user'
     user_id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime,  default=db.func.current_timestamp())
-    last_sync = db.Column(db.DateTime, default=db.func.current_timestamp())
+    created_at = db.Column(db.TIMESTAMP,  default=db.func.current_timestamp())
+    last_sync = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     last_load = db.Column(db.JSON)
+
+class Tag(Base):
+    __tablename__ = 'tag'
+    tag_id = db.Column(db.Integer, primary_key=True)
+    tag = db.Column(db.String,  default=db.func.current_timestamp())

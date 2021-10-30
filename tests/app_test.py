@@ -25,6 +25,8 @@ def db_session(setup_database, connection):
     yield models.db.scoped_session(models.db.sessionmaker(autocommit=True, autoflush=True, bind=connection))
     transaction.rollback()
 
+    
+
 with app.test_client() as tester:
     
     def test_index():
@@ -37,11 +39,10 @@ with app.test_client() as tester:
         session.add(new_user)
         last = session.query(models.User).first()
         assert last == new_user
-        last_created_at = session.query(models.User).with_entities(models.User.created_at)
-        assert last_created_at == datetime.now()
-
-    
-
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        last_created_at = session.query(models.User).with_entities(models.User.created_at).scalar().strftime("%Y-%m-%d %H:%M:%S")
+        assert now == last_created_at
+            
     def test_secret():
         assert app.config['SECRET_KEY'] == getenv('SECRET_KEY')
 

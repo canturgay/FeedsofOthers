@@ -9,6 +9,7 @@ def configure_app(app):
     configure = {
         "development": "config.devConfig",
         "production": "config.prodConfig",
+        "staging":"config.stageConfig"
     }
 
     #Determine the configuration file to read using environment variables

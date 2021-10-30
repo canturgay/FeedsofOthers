@@ -5,15 +5,19 @@ class Config(object):
     DEBUG = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = getenv('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URI')
 
 class devConfig(Config):
     TESTING = True
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URI')
+    
+
+class stageConfig(Config):
+    TESTING = True
+    DEBUG = True
 
     
 class prodConfig(Config):
-    SQLALCHEMY_DATABASE_URI = getenv('DATABASE_URI')
     DEBUG = False
     TESTING = False
 

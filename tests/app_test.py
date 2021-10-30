@@ -13,7 +13,7 @@ def connection():
 
 @pytest.fixture(scope="session")
 def setup_database(connection):
-    connection = models.Base.metadata.bind = 
+    connection = models.Base.metadata.bind 
     models.Base.metadata.create_all()
 
     yield

@@ -3,6 +3,12 @@
 
 name: Python application
 
+env:
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  FLASK_CONFIGURATION: ${{ secrets.FLASK_CONFIGURATION }}
+  FLASK_ENV: ${{ secrets.FLASK_ENV }}
+  DATABASE_URI: ${{ secrets.DATABASE_URI }}
+
 on:
   push:
     branches: [ master ]

@@ -2,22 +2,22 @@ from app import app
 import flask_sqlalchemy 
 import pytest
 from os import getenv
-import feedsofothers.models
+from feedsofothers import models
 from datetime import datetime
 
 @pytest.fixture(scope="session")
 def connection():
-    engine = models.db.create_engine(getenv('TEST_DATABASE_URI'), {})
+    engine = models.db.create_engine(getenv('DATABASE_URI'), {})
     return engine.connect()
 
 @pytest.fixture(scope="session")
 def setup_database(connection):
-    connection = models.Base.metadata.bind 
-    models.Base.metadata.create_all()
+    models.base.metadata.bind = connection
+    models.base.metadata.create_all()
 
     yield
 
-    models.Base.metadata.drop_all()
+    models.base.metadata.drop_all()
 
 @pytest.fixture
 def db_session(setup_database, connection):
@@ -33,11 +33,11 @@ with app.test_client() as tester:
 
     def test_db_add_user(db_session):
         session = db_session
-        new_user = User(last_load = {"key1": [2, 3, 1], "key2": [4, 5, 6]})
+        new_user = models.User(last_load = {"key1": [2, 3, 1], "key2": [4, 5, 6]})
         session.add(new_user)
-        last = session.query(User).first()
+        last = session.query(models.User).first()
         assert last == new_user
-        last_created_at = session.query(User).with_entities(User.created_at)
+        last_created_at = session.query(models.User).with_entities(models.User.created_at)
         assert last_created_at == datetime.now()
 
     
@@ -49,7 +49,7 @@ with app.test_client() as tester:
         if getenv('FLASK_CONFIGURATION') == 'development':
             assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
             assert app.config['DEBUG']
-            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('TEST_DATABASE_URI')
+            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
         elif getenv('FLASK_CONFIGURATION') == 'production':
             assert getenv('FLASK_ENV') == 'production'
             assert not app.config['TESTING']

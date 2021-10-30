@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from os import getenv
-from feedsofothers.models import db
+from feedsofothers.models import db, base
 from dotenv import load_dotenv
 
 def configure_app(app):
@@ -32,9 +32,6 @@ def create_app():
     return app
 
 app = create_app()
-engine = db.create_engine(getenv('TEST_DATABASE_URI'))
-models.Base.metadata.bind = connection
-session = db.scoped_session(db.sessionmaker(autocommit=True, autoflush=True, bind=connection))
 
 #routing
 @app.route("/", methods=['GET'])

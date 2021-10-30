@@ -3,7 +3,7 @@ import flask_sqlalchemy
 import pytest
 from os import getenv
 from feedsofothers import models
-from feedsofothers.models import db , User
+from feedsofothers import models
 from datetime import datetime
 
 @pytest.fixture(scope="session")

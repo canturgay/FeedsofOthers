@@ -2,8 +2,7 @@ from app import app
 import flask_sqlalchemy 
 import pytest
 from os import getenv
-from feedsofothers import models
-from feedsofothers import models
+import feedsofothers.models
 from datetime import datetime
 
 @pytest.fixture(scope="session")

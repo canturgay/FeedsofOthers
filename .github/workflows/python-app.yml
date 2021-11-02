@@ -22,9 +22,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_PASSWORD: postgrespassword
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_USER: postgresuser
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }} 
           POSTGRES_PORT: 5432
         options: >-

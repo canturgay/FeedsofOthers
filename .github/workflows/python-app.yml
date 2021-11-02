@@ -44,6 +44,7 @@ jobs:
       with:
         python-version: 3.9
     - name: Install dependencies
+      run: npm ci
       run: |
         python -m pip3 install --upgrade pip
         pip install flake8 pytest

@@ -16,7 +16,7 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container: node:10.18-jessie
+    container: python:3.9
 
     services:
     # Label used to access the service container

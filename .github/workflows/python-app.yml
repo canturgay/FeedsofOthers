@@ -1,4 +1,4 @@
-name: Python application
+name: FeedsofOthers
 
 env:
   FLASK_CONFIGURATION: ${{ secrets.FLASK_CONFIGURATION }}
@@ -19,18 +19,14 @@ jobs:
     container: python:3.9
 
     services:
-    # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres
-        # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }} 
           POSTGRES_PORT: 5432
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -45,9 +41,9 @@ jobs:
         python-version: 3.9
     - name: Install dependencies
       run: |
-        python -m pip3 install --upgrade pip
+        python -m pip install --upgrade pip
         pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip3 install -r requirements.txt; fi
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names

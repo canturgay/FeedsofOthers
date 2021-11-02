@@ -53,7 +53,8 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
-
+    - name: Install Heroku Cli
+      run: curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
     - name: Login to Heroku Container registry
       env: 
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}

@@ -16,10 +16,6 @@ on:
     branches: [ master ]
 
 jobs:
-  name: PostgreSQL service example
-on: push
-
-jobs:
   container-job:
 
     runs-on: ubuntu-latest

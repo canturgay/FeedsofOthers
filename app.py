@@ -16,7 +16,7 @@ def configure_app(app):
     config_name = getenv('FLASK_CONFIGURATION', 'development')
     print(configure)
     #Read settings as objects
-    app.config.from_object(configure["production"])
+    app.config.from_object(configure[config_name])
     
     #Overwrite sensitive settings with the settings in the instance folder
     app.config.from_pyfile('config.cfg', silent=True)

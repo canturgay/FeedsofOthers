@@ -46,4 +46,15 @@ with app.test_client() as tester:
     def test_secret():
         assert app.config['SECRET_KEY'] == getenv('SECRET_KEY')
 
-   
+    def test_env_conf():
+        if getenv('FLASK_CONFIGURATION') == 'development':
+            assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
+            assert app.config['DEBUG']
+            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
+        elif getenv('FLASK_CONFIGURATION') == 'production':
+            assert getenv('FLASK_ENV') == 'production'
+            assert not app.config['TESTING']
+            assert not app.config['DEBUG'] 
+            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
+        else:
+            raise ValueError('unexpected FLASK_CONFIGURATION')

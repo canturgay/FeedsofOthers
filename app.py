@@ -17,9 +17,6 @@ def configure_app(app):
     print(configure)
     #Read settings as objects
     app.config.from_object(configure[config_name])
-    
-    #Overwrite sensitive settings with the settings in the instance folder
-    app.config.from_pyfile('config.cfg', silent=True)
 
     return app.config
 

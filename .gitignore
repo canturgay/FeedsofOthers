@@ -18,4 +18,3 @@ build/
 denemeler.py
 .DS_Store
 node_modules/
-/public

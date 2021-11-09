@@ -35,3 +35,15 @@ class Tweet(base):
     quoted_url = db.Column(db.String(23))
     quoted_content = db.Column(db.String(240))
     quoted_status_contained_url = db.Column(db.String(100))
+
+class User_Tag(base):
+    __tablename__ = 'user_tag'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer)
+    tag_id = db.Column(db.Integer)
+
+class Tag_Tweet(base):
+    __tablename__ = 'tag_tweet'
+    id = db.Column(db.Integer, primary_key=True)
+    tag_id = db.Column(db.Integer)
+    tweet_id = db.Column(db.Integer)

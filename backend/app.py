@@ -1,15 +1,15 @@
 from flask import Flask, render_template
 from os import getenv
-from models import db
+from backend.models import db
 from dotenv import load_dotenv
 
 def configure_app(app):
     #configurations
     load_dotenv()
     configure = {
-        "development": "config.devConfig",
-        "production": "config.prodConfig",
-        "staging": "config.stageConfig"
+        "development": "backend.config.devConfig",
+        "production": "backend.config.prodConfig",
+        "staging": "backend.config.stageConfig"
     }
     
     #Determine the configuration file to read using environment variables

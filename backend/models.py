@@ -1,3 +1,4 @@
+from typing import Text
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -16,3 +17,7 @@ class Tag(base):
     __tablename__ = 'tag'
     tag_id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String,  default=db.func.current_timestamp())
+
+class Tweet(base):
+    __tablename__ = 'resource'
+    tweet_id = db.Column(db.Integer, primary_key=True)

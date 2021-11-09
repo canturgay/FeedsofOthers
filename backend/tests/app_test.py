@@ -1,8 +1,8 @@
-from app import app 
+from backend.app import app 
 import flask_sqlalchemy 
 import pytest
 from os import getenv
-import models
+from backend import models
 from datetime import datetime
 
 @pytest.fixture(scope="session")

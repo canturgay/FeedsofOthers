@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from os import getenv
-from models import db, base
+from models import db
 from dotenv import load_dotenv
 
 def configure_app(app):

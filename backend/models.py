@@ -8,16 +8,30 @@ base = declarative_base()
 
 class User(base):
     __tablename__ = 'user'
-    user_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.TIMESTAMP,  default=db.func.current_timestamp())
     last_sync = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     last_load = db.Column(db.JSON)
 
 class Tag(base):
     __tablename__ = 'tag'
-    tag_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String,  default=db.func.current_timestamp())
 
 class Tweet(base):
     __tablename__ = 'resource'
-    tweet_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    created_at = db.Column(db.DateTime)
+    content = db.Column(db.String(240))
+    hashtags = db.Column(db.String(240))
+    user_id = db.Column(db.Integer)
+    user_name = db.Column(db.String(15)) 
+    tweet_url = db.Column(db.String(23))
+    contained_url = db.Column(db.String(100))
+    quoted_id = db.Column(db.Integer)
+    quoted_user_id = db.Column(db.Integer)
+    quoted_hashtags = db.Column(db.String(240))
+    quoted_user_name = db.Column(db.String(15))
+    quoted_url = db.Column(db.String(23))
+    quoted_content = db.Column(db.String(240))
+    quoted_status_contained_url = db.Column(db.String(100))

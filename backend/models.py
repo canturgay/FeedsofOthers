@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 
@@ -11,11 +12,12 @@ class User(base):
     created_at = db.Column(db.TIMESTAMP,  default=db.func.current_timestamp())
     last_sync = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
     last_load = db.Column(db.JSON)
+    tags = relationship('Tag')
 
 class Tag(base):
     __tablename__ = 'tag'
-    id = db.Column(db.Integer, primary_key=True)
-    tag = db.Column(db.String,  default=db.func.current_timestamp())
+    tag = db.Column(db.String,  primary_key=True)
+    tweet = relationship('Tweet', secondary='tag_tweet', backref='Tag')
 
 class Tweet(base):
     __tablename__ = 'resource'
@@ -34,15 +36,6 @@ class Tweet(base):
     quoted_url = db.Column(db.String(23))
     quoted_content = db.Column(db.String(240))
     quoted_status_contained_url = db.Column(db.String(100))
+    tags = relationship('Tag', secondary='tag_tweet', backref='Tweet')
 
-class User_Tag(base):
-    __tablename__ = 'user_tag'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, foreign_key='user.id')
-    tag_id = db.Column(db.Integer, foreign_key='tag.id')
 
-class Tag_Tweet(base):
-    __tablename__ = 'tag_tweet'
-    id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer, foreign_key='tag.id')
-    tweet_id = db.Column(db.Integer, foreign_key='resource.id')

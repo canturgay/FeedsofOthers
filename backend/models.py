@@ -39,11 +39,11 @@ class Tweet(base):
 class User_Tag(base):
     __tablename__ = 'user_tag'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    tag_id = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, foreign_key='user.id')
+    tag_id = db.Column(db.Integer, foreign_key='tag.id')
 
 class Tag_Tweet(base):
     __tablename__ = 'tag_tweet'
     id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer)
-    tweet_id = db.Column(db.Integer)
+    tag_id = db.Column(db.Integer, foreign_key='tag.id')
+    tweet_id = db.Column(db.Integer, foreign_key='resource.id')

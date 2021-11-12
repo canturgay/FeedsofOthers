@@ -3,7 +3,7 @@ name: DependenciesandTests
 env:
   FLASK_CONFIGURATION: ${{ secrets.FLASK_CONFIGURATION }}
   FLASK_ENV: ${{ secrets.FLASK_ENV }}
-  DATABASE_URI: ${{ secrets.TEST_DATABASE_URI }}
+  TEST_DATABASE_URI: ${{ secrets.TEST_DATABASE_URI }}
 
 on:
   push:

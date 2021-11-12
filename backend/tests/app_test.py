@@ -24,7 +24,7 @@ def setup_database(connection):
     models.base.metadata.drop_all()
 
 @pytest.fixture
-def db_session(setup_database, connection):
+def db_session(connection):
     transaction = connection.begin()
     yield models.db.scoped_session(models.db.sessionmaker(autocommit=True, autoflush=True, bind=connection))
     transaction.rollback()
@@ -50,7 +50,7 @@ with app.test_client() as tester:
     def test_secret():
         assert app.config['SECRET_KEY'] == getenv('SECRET_KEY')
 
-    def test_env_conf():
+    def test_env_config():
         if getenv('FLASK_CONFIGURATION') == 'development':
             assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
             assert app.config['DEBUG']

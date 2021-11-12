@@ -50,7 +50,7 @@ with app.test_client() as tester:
     def test_secret():
         assert app.config['SECRET_KEY'] == getenv('SECRET_KEY')
 
-    def test_env_config():
+    def test_env_conf():
         if getenv('FLASK_CONFIGURATION') == 'development':
             assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
             assert app.config['DEBUG']

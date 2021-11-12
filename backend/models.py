@@ -1,41 +1,51 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import MetaData
 from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
+base = db.make_declarative_base(db.Model)
+metadata_obj = db.metadata
 
-base = declarative_base()
+
+
 
 class User(base):
     __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.TIMESTAMP,  default=db.func.current_timestamp())
-    last_sync = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
-    last_load = db.Column(db.JSON)
-    tags = relationship('Tag')
+    id = db.Column('id', db.Integer, primary_key=True)
+    created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp())
+    last_sync = db.Column('last_sync', db.TIMESTAMP, default=db.func.current_timestamp())
+    last_load = db.Column('last_load', db.JSON)
+   
+    
 
 class Tag(base):
     __tablename__ = 'tag'
-    tag = db.Column(db.String,  primary_key=True)
-    tweet = relationship('Tweet', secondary='tag_tweet', backref='Tag')
+    name = db.Column('name', db.String, primary_key=True)
+
+
 
 class Tweet(base):
     __tablename__ = 'resource'
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime)
-    content = db.Column(db.String(240))
-    hashtags = db.Column(db.String(240))
-    user_id = db.Column(db.Integer)
-    user_name = db.Column(db.String(15)) 
-    tweet_url = db.Column(db.String(23))
-    contained_url = db.Column(db.String(100))
-    quoted_id = db.Column(db.Integer)
-    quoted_user_id = db.Column(db.Integer)
-    quoted_hashtags = db.Column(db.String(240))
-    quoted_user_name = db.Column(db.String(15))
-    quoted_url = db.Column(db.String(23))
-    quoted_content = db.Column(db.String(240))
-    quoted_status_contained_url = db.Column(db.String(100))
-    tags = relationship('Tag', secondary='tag_tweet', backref='Tweet')
+    id = db.Column('id' ,db.Integer, primary_key=True)
+    created_at = db.Column('created_at' ,db.DateTime)
+    content = db.Column('content', db.String(240))
+    hashtags = db.Column('hashtags' ,db.String(240))
+    user_id = db.Column('user_id' ,db.Integer)
+    user_name = db.Column('user_name', db.String(15)) 
+    tweet_url = db.Column('tweet_url', db.String(23))
+    contained_url = db.Column('contained_url', db.String(100))
+    quoted_id = db.Column('quoted_id', db.Integer)
+    quoted_user_id = db.Column('quoted_user_id', db.Integer)
+    quoted_hashtags = db.Column('quoted_hashtags', db.String(240))
+    quoted_user_name = db.Column('quoted_user_name', db.String(15))
+    quoted_url = db.Column('quoted_url', db.String(23))
+    quoted_content = db.Column('quoted_content', db.String(240))
+    quoted_status_contained_url = db.Column('quoted_status_contained_url', db.String(100))
+   
 
+class Tag_Tweet(base):
+    __tablename__ = 'tag_tweet'
+    id = db.Column('id', db.Integer, primary_key=True)
+    tag = db.Column('tag', db.String, db.ForeignKey('tag.name'))
+    tweet = db.Column('tweet', db.Integer, db.ForeignKey('resource.id'))
 

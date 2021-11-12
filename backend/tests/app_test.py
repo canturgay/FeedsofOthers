@@ -1,5 +1,4 @@
-from backend.app import app 
-import flask_sqlalchemy 
+from backend.app import app  
 import pytest
 from os import getenv
 from backend import models
@@ -7,7 +6,7 @@ from datetime import datetime
 
 @pytest.fixture(scope="session")
 def connection():
-    engine = models.db.create_engine(getenv('DATABASE_URI'), {})
+    engine = models.db.create_engine(getenv('TEST_DATABASE_URI'), {})
     return engine.connect()
 
 @pytest.fixture(scope="session")

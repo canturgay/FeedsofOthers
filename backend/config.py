@@ -10,6 +10,11 @@ class Config(object):
 class devConfig(Config):
     TESTING = True
     DEBUG = True
+
+class testConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = getenv('TEST_DATABASE_URI')
+    DEBUG = True
     
 
 class stageConfig(Config):

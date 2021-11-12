@@ -9,12 +9,12 @@ def configure_app(app):
     configure = {
         "development": "backend.config.devConfig",
         "production": "backend.config.prodConfig",
-        "staging": "backend.config.stageConfig"
+        "staging": "backend.config.stageConfig",
+        "testing": "backend.config.testConfig"
     }
     
     #Determine the configuration file to read using environment variables
     config_name = getenv('FLASK_CONFIGURATION', 'development')
-    print(configure)
     #Read settings as objects
     app.config.from_object(configure[config_name])
 

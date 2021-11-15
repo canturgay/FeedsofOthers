@@ -6,6 +6,7 @@ from backend.app import app
 import pytest
 from backend import models
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
 
 
 
@@ -36,6 +37,11 @@ with app.test_client() as tester:
     def test_index():
         with tester.get("/", content_type="html/text") as response:
             assert response.status_code == 200, 304
+
+    def test_declarative_class_match_db_table():
+        assert models.User.__table__ == models.db.inspect(models.User).local_table
+        assert models.Tag.__table__ == models.db.inspect(models.Tag).local_table
+        assert models.Tweet.__table__ == models.db.inspect(models.Tweet).local_table
 
     def test_db_add_user(db_session):
         session = db_session

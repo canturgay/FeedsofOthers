@@ -8,6 +8,25 @@ from backend import models
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
+def test_env_conf():
+        if getenv('FLASK_CONFIGURATION') == 'development':
+            assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
+            assert app.config['DEBUG']
+            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
+        elif getenv('FLASK_CONFIGURATION') == 'production':
+            assert getenv('FLASK_ENV') == 'production'
+            assert not app.config['TESTING']
+            assert not app.config['DEBUG'] 
+            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
+        elif getenv('FLASK_CONFIGURATION') == 'testing':
+            assert app.config['TESTING']
+            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('TEST_DATABASE_URI')
+        else:
+            raise ValueError('unexpected FLASK_CONFIGURATION')
+
+def test_secret():
+    assert app.config['SECRET_KEY'] == getenv('SECRET_KEY')
+
 
 
 @pytest.fixture(scope="session")
@@ -38,7 +57,14 @@ with app.test_client() as tester:
         with tester.get("/", content_type="html/text") as response:
             assert response.status_code == 200, 304
 
-    def test_declarative_class_match_db_table():
+    def test_db_tables_exists(db_session):
+        session = db_session()
+        assert models.db.inspect(models.User) is not None
+        assert models.db.inspect(models.Tag) is not None
+        assert models.db.inspect(models.Tweet) is not None
+        assert models.db.inspect(models.tags) is not None
+
+    def test_declarative_class_matches_db_table():
         assert models.User.__table__ == models.db.inspect(models.User).local_table
         assert models.Tag.__table__ == models.db.inspect(models.Tag).local_table
         assert models.Tweet.__table__ == models.db.inspect(models.Tweet).local_table
@@ -53,21 +79,6 @@ with app.test_client() as tester:
         last_created_at = session.query(models.User).with_entities(models.User.created_at).scalar().strftime("%Y-%m-%d %H:%M:%S")
         assert now == last_created_at
             
-    def test_secret():
-        assert app.config['SECRET_KEY'] == getenv('SECRET_KEY')
 
-    def test_env_conf():
-        if getenv('FLASK_CONFIGURATION') == 'development':
-            assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
-            assert app.config['DEBUG']
-            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
-        elif getenv('FLASK_CONFIGURATION') == 'production':
-            assert getenv('FLASK_ENV') == 'production'
-            assert not app.config['TESTING']
-            assert not app.config['DEBUG'] 
-            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
-        elif getenv('FLASK_CONFIGURATION') == 'testing':
-            assert app.config['TESTING']
-            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('TEST_DATABASE_URI')
-        else:
-            raise ValueError('unexpected FLASK_CONFIGURATION')
+
+    

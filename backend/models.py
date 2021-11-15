@@ -4,12 +4,16 @@ db = SQLAlchemy()
 base = db.make_declarative_base(db.Model)
 metadata_obj = db.metadata
 
+class TimeStampMixin(object):
+    created_at = db.Column(db.DateTime, default=db.func.now())
+    updated_at = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
 tags = db.Table('tags',
 db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
 db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.id'), primary_key=True)
 )
 
-class User(base):
+class User(base, TimeStampMixin):
     __tablename__ = 'user'
     id = db.Column('id', db.Integer, primary_key=True)
     created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp())

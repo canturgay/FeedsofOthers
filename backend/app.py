@@ -2,6 +2,9 @@ from flask import Flask, render_template
 from os import getenv
 from backend.models import db
 from dotenv import load_dotenv
+from flask_login import LoginManager
+
+
 
 def configure_app(app):
     #configurations
@@ -23,12 +26,16 @@ def configure_app(app):
 def create_app():
     app = Flask(__name__)
     configure_app(app)
+    login_manager = LoginManager()
+    login_manager.init_app(app)
     db.init_app(app)
     with app.app_context():
         db.create_all()  
     return app
 
 app = create_app()
+
+
 
 #routing
 @app.route("/", methods=['GET'])

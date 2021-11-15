@@ -58,7 +58,6 @@ with app.test_client() as tester:
             assert response.status_code == 200, 304
 
     def test_db_tables_exists(db_session):
-        session = db_session()
         assert models.db.inspect(models.User) is not None
         assert models.db.inspect(models.Tag) is not None
         assert models.db.inspect(models.Tweet) is not None

@@ -17,6 +17,19 @@ class User(base):
     updated_at = db.Column('updated_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     last_sync = db.Column('last_sync', db.TIMESTAMP, default=db.func.current_timestamp())
     last_load = db.Column('last_load', db.JSON)
+    authenticated = db.Column(db.Boolean, default=False)
+
+    def is_active(self):
+        return True
+
+    def get_id(self):
+        return self.id
+    
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_anonymus(self):
+        return False
 
     def __repr__(self):
         return '<User %r>' % self.id

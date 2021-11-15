@@ -26,21 +26,27 @@ def configure_app(app):
 def create_app():
     app = Flask(__name__)
     configure_app(app)
-    login_manager = LoginManager()
-    login_manager.init_app(app)
     db.init_app(app)
     with app.app_context():
         db.create_all()  
     return app
 
 app = create_app()
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
+@login_manager.user_loader
+def load_user(user_id):
+    return db.User.get(user_id)
 
 #routing
 @app.route("/", methods=['GET'])
 def hello_world():
     return render_template('index.html', page_title='Feeds of Others')
+
+
+
 
 
 if __name__ == "__main__":

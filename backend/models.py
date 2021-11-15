@@ -1,12 +1,13 @@
-from enum import unique
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
-from sqlalchemy.orm import relationship
 
 db = SQLAlchemy()
 base = db.make_declarative_base(db.Model)
 metadata_obj = db.metadata
 
+tags = db.Table('tags',
+db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
+db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.id'), primary_key=True)
+)
 
 class User(base):
     __tablename__ = 'user'
@@ -47,14 +48,12 @@ class Tweet(base):
     quoted_url = db.Column('quoted_url', db.String(23))
     quoted_content = db.Column('quoted_content', db.String(240))
     quoted_status_contained_url = db.Column('quoted_status_contained_url', db.String(100))
+    tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('tweets', lazy=True))
 
     def __repr__(self):
         return '<Tweet %r>' % self.id
    
-
-class Tag_Tweet(base):
-    __tablename__ = 'tag_tweet'
-    id = db.Column('id', db.Integer, primary_key=True)
-    tag = db.Column('tag', db.String, db.ForeignKey('tag.name'))
-    tweet = db.Column('tweet', db.Integer, db.ForeignKey('resource.id'))
-
+tags = db.Table('tags',
+db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
+db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.id'), primary_key=True)
+)

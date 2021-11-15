@@ -32,7 +32,7 @@ class Tag(base):
 
 
 class Tweet(base):
-    __tablename__ = 'resource'
+    __tablename__ = 'tweet'
     id = db.Column('id' ,db.Integer, primary_key=True)
     created_at = db.Column('created_at' ,db.DateTime)
     content = db.Column('content', db.String(240))
@@ -53,7 +53,4 @@ class Tweet(base):
     def __repr__(self):
         return '<Tweet %r>' % self.id
    
-tags = db.Table('tags',
-db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
-db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.id'), primary_key=True)
-)
+

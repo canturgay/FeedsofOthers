@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from os import getenv
 from backend.models import db
 from dotenv import load_dotenv
+from backend.blueprints.auth_bp import auth_bp
 
 
 
@@ -39,6 +40,7 @@ app = create_app()
 def hello_world():
     return render_template('index.html', page_title='Feeds of Others')
 
+app.register_blueprint(auth_bp)
 
 
 

@@ -2,7 +2,6 @@ from flask import Flask, render_template
 from os import getenv
 from backend.models import db
 from dotenv import load_dotenv
-from flask_login import LoginManager
 
 
 

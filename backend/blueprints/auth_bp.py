@@ -41,7 +41,7 @@ def register():
         return jsonify(message='An error occured'), 500
 
 @auth_bp.route('/login', methods=['POST'])
-def login():
+def login(data):
     id = data['id']
     oauth_token = data['oauth_token']
     oauth_token_secret = data['oauth_token_secret']

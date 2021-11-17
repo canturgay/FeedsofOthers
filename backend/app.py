@@ -31,8 +31,6 @@ def create_app():
     return app
 
 app = create_app()
-login_manager = LoginManager()
-login_manager.init_app(app)
 
 
 

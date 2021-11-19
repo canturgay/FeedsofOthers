@@ -13,11 +13,6 @@ def test_env_conf():
             assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
             assert app.config['DEBUG']
             assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
-        elif getenv('FLASK_CONFIGURATION') == 'production':
-            assert getenv('FLASK_ENV') == 'production'
-            assert not app.config['TESTING']
-            assert not app.config['DEBUG'] 
-            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
         elif getenv('FLASK_CONFIGURATION') == 'testing':
             assert app.config['TESTING']
             assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('TEST_DATABASE_URI')

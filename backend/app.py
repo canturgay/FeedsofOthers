@@ -3,7 +3,7 @@ from os import getenv
 from backend.models import db
 from dotenv import load_dotenv
 from backend.blueprints.auth_bp import auth_bp
-
+from flask_cors import CORS
 
 
 def configure_app(app):
@@ -32,6 +32,7 @@ def create_app():
     return app
 
 app = create_app()
+CORS(app, origins=[getenv('FRONTEND_URL')])
 
 
 

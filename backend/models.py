@@ -1,11 +1,4 @@
-from flask_sqlalchemy import SQLAlchemy
-from os import getenv
-
-db = SQLAlchemy()
-base = db.make_declarative_base(db.Model)
-metadata_obj = db.metadata
-engine = db.create_engine(getenv('DATABASE_URI'), echo=True, echo_pool=False, pool_size=10, pool_recycle=3600, pool_timeout=30, pool_pre_ping=True)
-
+from backend.db_helpers import db, base
 
 
 tags = db.Table('tags',

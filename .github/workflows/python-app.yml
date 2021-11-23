@@ -4,6 +4,7 @@ env:
   FLASK_CONFIGURATION: ${{ secrets.FLASK_CONFIGURATION }}
   FLASK_ENV: ${{ secrets.FLASK_ENV }}
   TEST_DATABASE_URI: ${{ secrets.TEST_DATABASE_URI }}
+  FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
 
 on:
   push:

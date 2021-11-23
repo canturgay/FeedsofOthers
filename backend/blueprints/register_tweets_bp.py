@@ -9,5 +9,3 @@ def register_tweets():
     tweets = data['tweets']
     tags = data['tags']
 
-    for tweet in tweets:
-

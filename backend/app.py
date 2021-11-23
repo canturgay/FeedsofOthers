@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from os import getenv
-from backend.models import db
+from backend.db_helpers import db
 from dotenv import load_dotenv
 from backend.blueprints.auth_bp import auth_bp
 from flask_cors import CORS

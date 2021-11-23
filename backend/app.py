@@ -20,7 +20,6 @@ def configure_app(app):
     config_name = getenv('FLASK_CONFIGURATION', 'development')
     #Read settings as objects
     app.config.from_object(configure[config_name])
-
     return app.config
 
 def create_app():

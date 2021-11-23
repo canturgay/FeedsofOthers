@@ -31,7 +31,7 @@ def create_app():
     return app
 
 app = create_app()
-CORS(app, origins=[getenv('FRONTEND_URL')])
+CORS(app, origins=[getenv('FRONTEND_URL')], methods=['GET', 'POST'], supports_credentials=True)
 
 
 

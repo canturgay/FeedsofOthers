@@ -9,6 +9,6 @@ load_dotenv()
 db = SQLAlchemy()
 base = db.make_declarative_base(db.Model)
 engine = db.create_engine(getenv('DATABASE_URI'), {})    
-metadata_obj = db.metadata
+metadata = db.metadata
 
 

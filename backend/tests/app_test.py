@@ -7,7 +7,6 @@ import pytest
 from backend import models
 from backend.db_helpers import db, base
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
 
 def test_env_conf():
         if getenv('FLASK_CONFIGURATION') == 'development':

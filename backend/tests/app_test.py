@@ -52,7 +52,7 @@ with app.test_client() as tester:
         with tester.get("/", content_type="html/text") as response:
             assert response.status_code == 200, 304
 
-    def test_db_tables_exists(db_session):
+    def test_db_tables_exists():
         assert db.inspect(models.User) is not None
         assert db.inspect(models.Tag) is not None
         assert db.inspect(models.Tweet) is not None

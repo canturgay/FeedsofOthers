@@ -9,10 +9,11 @@ db.Column('tweet_id', db.Integer, db.ForeignKey('tweet.id'), primary_key=True)
 class User(base):
     __tablename__ = 'user'
     id = db.Column('id', db.Integer, primary_key=True)
+    oauth_token = db.Column('oauth_token', db.String(100))
+    oauth_token_secret = db.Column('oauth_token_secret', db.String(100))
     created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp())
     updated_at = db.Column('updated_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     last_sync = db.Column('last_sync', db.TIMESTAMP, default=db.func.current_timestamp())
-    last_load = db.Column('last_load', db.JSON)
     authenticated = db.Column(db.Boolean, default=False)
 
     def __repr__(self):

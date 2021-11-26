@@ -69,9 +69,9 @@ with app.test_client() as tester:
         new_user = models.User(last_load = {"key1": [2, 3, 1], "key2": [4, 5, 6]})
         session.add(new_user)
         last = session.query(models.User).first()
-        assert last == new_user
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         last_created_at = session.query(models.User).with_entities(models.User.created_at).scalar().strftime("%Y-%m-%d %H:%M:%S")
+        assert last == new_user
         assert now == last_created_at
             
 

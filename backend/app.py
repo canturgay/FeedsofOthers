@@ -4,6 +4,7 @@ from backend.db_helpers import db
 from dotenv import load_dotenv
 from backend.blueprints.auth_bp import auth_bp
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 
 def configure_app(app):
@@ -26,6 +27,7 @@ def create_app():
     app = Flask(__name__)
     configure_app(app)
     db.init_app(app)
+    migrate = Migrate(app, db)
     with app.app_context():
         db.create_all()  
     return app

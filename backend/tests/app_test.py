@@ -47,6 +47,8 @@ def db_session(connection):
     
 
 with app.test_client() as tester:
+
+    session = db_session
     
     def test_index():
         with tester.get("/", content_type="html/text") as response:
@@ -63,8 +65,7 @@ with app.test_client() as tester:
         assert models.Tag.__table__ == db.inspect(models.Tag).local_table
         assert models.Tweet.__table__ == db.inspect(models.Tweet).local_table
 
-    def test_db_add_user(db_session):
-        session = db_session
+    def test_db_add_user(session):
         new_user = models.User(last_load = {"key1": [2, 3, 1], "key2": [4, 5, 6]})
         session.add(new_user)
         last = session.query(models.User).first()

@@ -2,11 +2,13 @@ from os import getenv, environ
 
 environ['FLASK_CONFIGURATION'] = 'testing'
 
+from flask import url_for
 from backend.app import app  
 import pytest
 from backend import models
 from backend.db_helpers import db, base
 from datetime import datetime
+
 
 def test_env_conf():
         if getenv('FLASK_CONFIGURATION') == 'development':
@@ -44,11 +46,16 @@ def db_session(connection):
     yield db.scoped_session(db.sessionmaker(autocommit=True, autoflush=True, bind=connection))
     transaction.rollback()
 
+@pytest.fixture
+def client(db_session):
+    client = app.test_client()
+    yield client
+
     
 
 with app.test_client() as tester:
 
-    session = db_session
+   
     
     def test_index():
         with tester.get("/", content_type="html/text") as response:
@@ -65,14 +72,20 @@ with app.test_client() as tester:
         assert models.Tag.__table__ == db.inspect(models.Tag).local_table
         assert models.Tweet.__table__ == db.inspect(models.Tweet).local_table
 
-    def test_db_add_user(session):
-        new_user = models.User(last_load = {"key1": [2, 3, 1], "key2": [4, 5, 6]})
+    def test_db_add_user(db_session):
+        session = db_session()
+        new_user = models.User(id=12300000, oauth_token='NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0', oauth_token_secret='veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI', authenticated=True)
         session.add(new_user)
         last = session.query(models.User).first()
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        last_created_at = session.query(models.User).with_entities(models.User.created_at).scalar().strftime("%Y-%m-%d %H:%M:%S")
+        last_created_at = last.created_at.strftime("%Y-%m-%d %H:%M:%S")
         assert last == new_user
         assert now == last_created_at
+
+    def test_register_user():
+        with tester.post("/auth/register", json={"user_id": 12340000, "oauth_access_token": "NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0", "oauth_access_token_secret" : "veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI", "oauth_callback_confirmed": True}) as response:
+            assert response.status_code == 201
+            assert response.json == {'message': 'User registered'}
             
 
 

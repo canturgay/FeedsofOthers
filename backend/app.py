@@ -30,6 +30,7 @@ def create_app():
     migrate = Migrate(app, db)
     with app.app_context():
         db.create_all()  
+    app.register_blueprint(auth_bp)
     return app
 
 app = create_app()
@@ -42,7 +43,7 @@ CORS(app, origins=[getenv('FRONTEND_URL')], methods=['GET', 'POST'], supports_cr
 def hello_world():
     return render_template('index.html', page_title='Feeds of Others')
 
-app.register_blueprint(auth_bp)
+
 
 
 

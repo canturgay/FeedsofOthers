@@ -42,4 +42,4 @@ FoO = create_app()
 CORS(FoO, origins=[getenv('FRONTEND_URL')], methods=['GET', 'POST'], supports_credentials=True)
 
 if __name__ == "__main__":
-    app.run()
+    FoO.run()

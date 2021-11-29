@@ -6,11 +6,15 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @auth_bp.route('/register', methods=['POST'])
 def register():
-    data = request.get_json()
-    user_id = data['user_id']
-    oauth_access_token = data['oauth_access_token'] 
-    oauth_access_token_secret = data['oauth_access_token_secret']
-    oauth_callback_confirmed = data['oauth_callback_confirmed']
+    try:
+        data = request.get_json()
+        user_id = data['user_id']
+        oauth_access_token = data['oauth_access_token'] 
+        oauth_access_token_secret = data['oauth_access_token_secret']
+        oauth_callback_confirmed = data['oauth_callback_confirmed']
+    except:
+        response = jsonify({'message': 'Error: missing data'})
+        return response, 400
 
     try:
         user = User.query.filter_by(id=user_id).first()

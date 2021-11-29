@@ -19,6 +19,7 @@ def addtags():
                     try: 
                         tweet_id = tw['id']
                         if Tweet.query.filter_by(id=tweet_id).first() is not None:
+                            tweet = Tweet.query.filter_by(id=tweet_id).first()
                             for tag in tags:
                                 tweet.tags.append(tag)
                     except:

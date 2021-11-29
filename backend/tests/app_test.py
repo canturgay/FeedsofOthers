@@ -54,3 +54,8 @@ def test_registered_user_data(db_session):
     assert db_session.query(models.User).first().oauth_token == 'NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0'
     assert db_session.query(models.User).first().oauth_token_secret == 'veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI'
     assert db_session.query(models.User).first().authenticated == True
+
+def test_register_user_empty_json(tester):
+    with tester.post("/auth/register", json={}) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'Error: missing data'}

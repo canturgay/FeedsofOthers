@@ -11,7 +11,7 @@ def register():
     oauth_access_token = data['oauth_access_token'] 
     oauth_access_token_secret = data['oauth_access_token_secret']
     oauth_callback_confirmed = data['oauth_callback_confirmed']
-    
+
     try:
         user = User.query.filter_by(id=user_id).first()
         if user is None:
@@ -20,7 +20,8 @@ def register():
             response = jsonify({'message': 'User registered'})
             return response, 201
         else:
-            return redirect(url_for('auth_bp.login', data=request.get_json()))
+            response = jsonify({'message': 'User already exists'})
+            return response , 409
     except:
         return jsonify(message='An error occured'), 500
 

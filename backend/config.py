@@ -22,8 +22,7 @@ class devConfig(Config):
 class testConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = getenv('TEST_DATABASE_URI')
-    DEBUG = True
-    
+    DEBUG = True    
 
 class stageConfig(Config):
     TESTING = True

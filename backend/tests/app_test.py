@@ -94,3 +94,11 @@ def test_register_user_missing_json_data_4(tester):
         }) as response:
         assert response.status_code == 400
         assert response.json == {'message': 'Error: missing data'}
+
+def test_save_add_tags(testerer):
+    with testerer.post("/addtags", json={
+        "user_id": 12340000,
+        "tags": ["test", "test2", "test3"]
+        }) as response:
+        assert response.status_code == 201
+        assert response.json == {'message': 'Tags saved'}

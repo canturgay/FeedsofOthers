@@ -1,10 +1,8 @@
 from flask import Flask, render_template
 from os import getenv
-from backend.db_helpers import db
 from dotenv import load_dotenv
-from backend.blueprints.auth_bp import auth_bp
 from flask_cors import CORS
-from flask_migrate import Migrate
+
 
 
 def configure_app(app):
@@ -26,27 +24,22 @@ def configure_app(app):
 def create_app():
     app = Flask(__name__)
     configure_app(app)
+    from backend.db_helpers import db
     db.init_app(app)
-    migrate = Migrate(app, db)
     with app.app_context():
         db.create_all()  
+
+    from backend.blueprints.auth_bp import auth_bp
     app.register_blueprint(auth_bp)
+
+    @app.route("/", methods=['GET'])
+    def hello_world():
+        return render_template('index.html', page_title='Feeds of Others')
+
     return app
 
-app = create_app()
-CORS(app, origins=[getenv('FRONTEND_URL')], methods=['GET', 'POST'], supports_credentials=True)
-
-
-
-#routing
-@app.route("/", methods=['GET'])
-def hello_world():
-    return render_template('index.html', page_title='Feeds of Others')
-
-
-
-
-
+FoO = create_app()
+CORS(FoO, origins=[getenv('FRONTEND_URL')], methods=['GET', 'POST'], supports_credentials=True)
 
 if __name__ == "__main__":
     app.run()

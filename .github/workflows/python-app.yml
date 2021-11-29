@@ -6,6 +6,7 @@ env:
   TEST_DATABASE_URI: ${{ secrets.TEST_DATABASE_URI }}
   DATABASE_URI: ${{ secrets.DATABASE_URI }}
   FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
+  SQLALCHEMY_DATABASE_URI: ${{ secrets.SQLALCHEMY_DATABASE_URI }}
 
 on:
   push:

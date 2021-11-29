@@ -3,8 +3,6 @@ from os import getenv
 from dotenv import load_dotenv
 from flask_cors import CORS
 
-
-
 def configure_app(app):
     #configurations
     load_dotenv()
@@ -22,14 +20,17 @@ def configure_app(app):
     return app.config
 
 def create_app():
+    #create and configure the app
     app = Flask(__name__)
     configure_app(app)
     
+    # get sqlalchemy object and create tables
     from backend.db_helpers import db
     db.init_app(app)
     with app.app_context():
-        db.create_all()  
+        db.create_all() 
 
+    #register routes and blueprints
     from backend.blueprints.auth_bp import auth_bp
     app.register_blueprint(auth_bp)
 

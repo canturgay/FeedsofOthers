@@ -16,7 +16,8 @@ def register():
         user = User.query.filter_by(id=user_id).first()
         if user is None:
             user = User(id=user_id, oauth_token=oauth_access_token, oauth_token_secret=oauth_access_token_secret, authenticated=oauth_callback_confirmed)
-            db.session.add(user)         
+            db.session.add(user)
+            db.session.commit()
             response = jsonify({'message': 'User registered'})
             return response, 201
         else:

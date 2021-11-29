@@ -59,3 +59,38 @@ def test_register_user_empty_json(tester):
     with tester.post("/auth/register", json={}) as response:
         assert response.status_code == 400
         assert response.json == {'message': 'Error: missing data'}
+
+def test_register_user_missing_json_data(tester):
+    with tester.post("/auth/register", json={
+        "oauth_access_token": "NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0",
+        "oauth_access_token_secret" : "veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI",
+        "oauth_callback_confirmed": True
+        }) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'Error: missing data'}
+
+def test_register_user_missing_json_data_2(tester):
+    with tester.post("/auth/register", json={
+        "user_id": 12340000,
+        "oauth_callback_confirmed": True
+        }) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'Error: missing data'}
+
+def test_register_user_missing_json_data_3(tester):
+    with tester.post("/auth/register", json={
+        "user_id": 12340000,
+        "oauth_access_token": "NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0",
+        "oauth_callback_confirmed": True
+        }) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'Error: missing data'}
+
+def test_register_user_missing_json_data_4(tester):
+    with tester.post("/auth/register", json={
+        "user_id": 12340000,
+        "oauth_access_token": "NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0",
+        "oauth_access_token_secret" : "veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI"
+        }) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'Error: missing data'}

@@ -2,24 +2,11 @@ from os import getenv, environ
 
 environ['FLASK_CONFIGURATION'] = 'testing'
 
-from flask import url_for
 from backend.app import app  
 import pytest
 from backend import models
 from backend.db_helpers import db, base
 from datetime import datetime
-
-
-def test_env_conf():
-        if getenv('FLASK_CONFIGURATION') == 'development':
-            assert getenv('FLASK_ENV') == 'development', app.config['TESTING']
-            assert app.config['DEBUG']
-            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('DATABASE_URI')
-        elif getenv('FLASK_CONFIGURATION') == 'testing':
-            assert app.config['TESTING']
-            assert app.config['SQLALCHEMY_DATABASE_URI'] == getenv('TEST_DATABASE_URI')
-        else:
-            raise ValueError('unexpected FLASK_CONFIGURATION')
 
 def test_secret():
     assert app.config['SECRET_KEY'] == getenv('SECRET_KEY')
@@ -51,12 +38,8 @@ def client(db_session):
     client = app.test_client()
     yield client
 
-    
-
 with app.test_client() as tester:
 
-   
-    
     def test_index():
         with tester.get("/", content_type="html/text") as response:
             assert response.status_code == 200, 304
@@ -83,9 +66,32 @@ with app.test_client() as tester:
         assert now == last_created_at
 
     def test_register_user():
-        with tester.post("/auth/register", json={"user_id": 12340000, "oauth_access_token": "NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0", "oauth_access_token_secret" : "veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI", "oauth_callback_confirmed": True}) as response:
+        with tester.post("/auth/register", json={
+            "user_id": 12340000,
+            "oauth_access_token": "NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0",
+            "oauth_access_token_secret" : "veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI",
+            "oauth_callback_confirmed": True
+            }) as response:
             assert response.status_code == 201
             assert response.json == {'message': 'User registered'}
+
+    def test_register_user_with_correct_data(db_session):
+        session = db_session()
+        assert session.query(models.User).first().id == 12340000
+        assert session.query(models.User).first().oauth_token == 'NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0'
+        assert session.query(models.User).first().oauth_token_secret == 'veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI'
+        assert session.query(models.User).first().authenticated == True
+
+
+    def test_register_user_already_exists():
+        with tester.post("/auth/register", json={
+            "user_id": 12340000,
+            "oauth_access_token": "NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0",
+            "oauth_access_token_secret" : "veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI",
+            "oauth_callback_confirmed": True
+            }) as response:
+            assert response.status_code == 409
+            assert response.json == {'message': 'User already exists'}
             
 
 

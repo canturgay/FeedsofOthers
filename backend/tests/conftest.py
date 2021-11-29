@@ -18,7 +18,7 @@ def tester(app):
     #Create a Flask app context for the tests.
     with app.app_context():
         tester = app.test_client()
-        yield tester
+        return tester
 
 @pytest.fixture(scope="session")
 def engine(app):

@@ -1,4 +1,4 @@
-from os import getenv, environ
+from os import environ
 from backend.app import create_app  
 import pytest
 from backend.db_helpers import db

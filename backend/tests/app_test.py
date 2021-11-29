@@ -2,9 +2,6 @@ from backend import models
 from backend.db_helpers import db
 from datetime import datetime
 
-
-
-
 def test_index(tester):
     with tester.get("/", content_type="html/text") as response:
         assert response.status_code == 200
@@ -57,6 +54,3 @@ def test_registered_user_data(db_session):
     assert db_session.query(models.User).first().oauth_token == 'NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0'
     assert db_session.query(models.User).first().oauth_token_secret == 'veNRnAWe6inFuo8o2u8SLLZLjolYDmDP7SzL0YfYI'
     assert db_session.query(models.User).first().authenticated == True
-        
-
-

@@ -135,3 +135,8 @@ def test_save_add_tags_and_tweets(tester):
         }) as response:
         assert response.status_code == 201
         assert response.json == {'message': 'Successfully added tags and tweets'}
+
+def test_add_tags_and_tweets_missing_data(tester):
+    with tester.post("/load/new", json={}) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'Error: missing data'}

@@ -24,6 +24,7 @@ def configure_app(app):
 def create_app():
     app = Flask(__name__)
     configure_app(app)
+    
     from backend.db_helpers import db
     db.init_app(app)
     with app.app_context():

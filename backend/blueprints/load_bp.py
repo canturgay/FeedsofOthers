@@ -52,7 +52,7 @@ def addtags():
             return response, 402
     except:
         response = jsonify({'message': 'Error: missing data'})
-        return response, 403
+        return response, 400
     
 
 

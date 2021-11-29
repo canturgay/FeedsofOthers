@@ -12,8 +12,7 @@ def addtags():
         tags = [data['tags']]
         tweets = data['tweets']
         
-        try:
-            user = User.query.filter_by(id=user_id).first()
+        if User.query.filter_by(id=user_id).first() is not None:
             try:
                 for tw in tweets:
                     try: 
@@ -48,9 +47,9 @@ def addtags():
             except:
                 response = jsonify({'message': 'Tweets couldnt be loaded'})
                 return response, 401
-        except:
+        else:
             response = jsonify({'message': 'Error: user not found'})
-            return response, 402
+            return response, 400
     except:
         response = jsonify({'message': 'Error: missing data'})
         return response, 400

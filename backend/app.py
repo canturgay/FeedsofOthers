@@ -32,7 +32,9 @@ def create_app():
 
     #register routes and blueprints
     from backend.blueprints.auth_bp import auth_bp
+    from backend.blueprints.load_bp import load_bp
     app.register_blueprint(auth_bp)
+    app.register_blueprint(load_bp)
 
     @app.route("/", methods=['GET'])
     def hello_world():

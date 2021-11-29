@@ -95,7 +95,7 @@ def test_register_user_missing_json_data_4(tester):
         assert response.status_code == 400
         assert response.json == {'message': 'Error: missing data'}
 
-def test_save_add_tags(testerer):
+def test_save_add_tags(tester):
     with testerer.post("/addtags", json={
         "user_id": 12340000,
         "tags": ["test", "test2", "test3"]

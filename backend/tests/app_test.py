@@ -134,4 +134,4 @@ def test_save_add_tags_and_tweets(tester):
         }]
         }) as response:
         assert response.status_code == 201
-        assert response.json == {'message': 'Tags successfully added'}
+        assert response.json == {'message': 'Successfully added tags and tweets'}

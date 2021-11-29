@@ -37,7 +37,6 @@ def create_app():
     @app.route("/", methods=['GET'])
     def hello_world():
         return render_template('index.html', page_title='Feeds of Others')
-
     return app
 
 FoO = create_app()

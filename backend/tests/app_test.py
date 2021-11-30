@@ -165,3 +165,13 @@ def test_add_tags_and_tweets_user_not_found(tester):
         }) as response:
         assert response.status_code == 400
         assert response.json == {'message': 'Error: user not found'}
+
+def test_add_tags_and_tweets_no_tweets(tester):
+    with tester.post("/load/new", json={
+        "user_id": 12340000,
+        "tags": ["test", "test2", "test3"],
+        "tweets": []
+        }) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'Tweets couldnt be loaded'}
+        

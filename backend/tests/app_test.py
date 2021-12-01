@@ -108,8 +108,8 @@ def test_save_add_tags_and_tweets(tester):
             'user_name': 'twitter_test_user',
             'tweet_url': 'https://t.co/28WMHvRfS0',
             'contained_url': 'https://t.co/28WMHvRfG0',
-            'quoted_id': '',
-            'quoted_user_id': '',
+            'quoted_id': 0,
+            'quoted_user_id': 0,
             'quoted_hashtags': [],
             'quoted_user_name': '',
             'quoted_url': '',
@@ -124,8 +124,8 @@ def test_save_add_tags_and_tweets(tester):
             'user_name': 'twitter_test_user',
             'tweet_url': 'https://t.co/28WMHvRfS0',
             'contained_url': 'https://t.co/28WMHvRfG0',
-            'quoted_id': '',
-            'quoted_user_id': '',
+            'quoted_id': 0,
+            'quoted_user_id': 0,
             'quoted_hashtags': [],
             'quoted_user_name': '',
             'quoted_url': '',
@@ -137,9 +137,11 @@ def test_save_add_tags_and_tweets(tester):
         assert response.json == {'message': 'Successfully added tags and tweets'}
 
 def test_add_tags_and_tweets_missing_data(tester):
-    with tester.post("/load/new", json={}) as response:
+    with tester.post("/load/new", json={
+        "user_id": 12340000,
+    }) as response:
         assert response.status_code == 400
-        assert response.json == {'message': 'Error: missing data'}
+        assert response.json == {'message': 'Tweets couldnt be loaded'}
 
 def test_add_tags_and_tweets_user_not_found(tester):
     with tester.post("/load/new", json={
@@ -154,8 +156,8 @@ def test_add_tags_and_tweets_user_not_found(tester):
             'user_name': 'twitter_test_user',
             'tweet_url': 'https://t.co/28WMHvRfS0',
             'contained_url': 'https://t.co/28WMHvRfG0',
-            'quoted_id': '',
-            'quoted_user_id': '',
+            'quoted_id': 0,
+            'quoted_user_id': 0,
             'quoted_hashtags': [],
             'quoted_user_name': '',
             'quoted_url': '',
@@ -174,4 +176,29 @@ def test_add_tags_and_tweets_no_tweets(tester):
         }) as response:
         assert response.status_code == 400
         assert response.json == {'message': 'Tweets couldnt be loaded'}
+
+def test_add_tags_and_tweets_no_tags(tester):
+    with tester.post("/load/new", json={
+        "user_id": 12340000,
+        "tags": [],
+        "tweets": [{
+            'id': 1464209084735963137,
+            'created_at': "Fri Nov 26 12:27:04 +0000 2021",
+            'content': "test tweet",
+            'hashtags': ["#hash", "#tag"],
+            'user_id': 99620272,
+            'user_name': 'twitter_test_user',
+            'tweet_url': 'https://t.co/28WMHvRfS0',
+            'contained_url': 'https://t.co/28WMHvRfG0',
+            'quoted_id': 0,
+            'quoted_user_id': 0,
+            'quoted_hashtags': [],
+            'quoted_user_name': '',
+            'quoted_url': '',
+            'quoted_content': '',
+            'quoted_status_contained_url': ''
+        }]
+        }) as response:
+        assert response.status_code == 400
+        assert response.json == {'message': 'No tags were provided'}
         

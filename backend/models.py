@@ -23,7 +23,7 @@ class User(base):
 
 class Tag(base):
     __tablename__ = 'tag'
-    id = db.Column('id', db.Integer, primary_key=True)
+    id = db.Column('id', db.Integer, primary_key=True, autoincrement=True)
     name = db.Column('name', db.String, unique=True)
 
     def __repr__(self):
@@ -41,8 +41,8 @@ class Tweet(base):
     user_name = db.Column('user_name', db.String(15)) 
     tweet_url = db.Column('tweet_url', db.String(23))
     contained_url = db.Column('contained_url', db.String(100))
-    quoted_id = db.Column('quoted_id', db.Integer)
-    quoted_user_id = db.Column('quoted_user_id', db.Integer)
+    quoted_id = db.Column('quoted_id', db.Integer, nullable=True)
+    quoted_user_id = db.Column('quoted_user_id', db.Integer, nullable=True)
     quoted_hashtags = db.Column('quoted_hashtags', db.String(240))
     quoted_user_name = db.Column('quoted_user_name', db.String(15))
     quoted_url = db.Column('quoted_url', db.String(23))

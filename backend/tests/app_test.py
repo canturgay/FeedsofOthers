@@ -108,13 +108,13 @@ def test_save_add_tags_and_tweets(tester):
             'user_name': 'twitter_test_user',
             'tweet_url': 'https://t.co/28WMHvRfS0',
             'contained_url': 'https://t.co/28WMHvRfG0',
-            'quoted_id': 0,
-            'quoted_user_id': 0,
+            'quoted_id': 99620272,
+            'quoted_user_id': 99620272,
             'quoted_hashtags': [],
-            'quoted_user_name': '',
-            'quoted_url': '',
-            'quoted_content': '',
-            'quoted_status_contained_url': ''
+            'quoted_user_name': [],
+            'quoted_url': [],
+            'quoted_content': [],
+            'quoted_status_contained_url': []
         }, {
             'id': 1464209084735963138,
             'created_at': "Fri Nov 26 12:27:04 +0000 2021",
@@ -124,49 +124,25 @@ def test_save_add_tags_and_tweets(tester):
             'user_name': 'twitter_test_user',
             'tweet_url': 'https://t.co/28WMHvRfS0',
             'contained_url': 'https://t.co/28WMHvRfG0',
-            'quoted_id': 0,
-            'quoted_user_id': 0,
+            'quoted_id': 99620272,
+            'quoted_user_id': 99620272,
             'quoted_hashtags': [],
-            'quoted_user_name': '',
-            'quoted_url': '',
-            'quoted_content': '',
-            'quoted_status_contained_url': ''
+            'quoted_user_name': [],
+            'quoted_url': [],
+            'quoted_content': [],
+            'quoted_status_contained_url': []
         }]
         }) as response:
         assert response.status_code == 201
-        assert response.json == {'message': 'Successfully added tags and tweets'}
+        assert response.json == {'message': 'Tweets and Tags added to the database'}
 
 def test_add_tags_and_tweets_missing_data(tester):
     with tester.post("/load/new", json={
         "user_id": 12340000,
     }) as response:
         assert response.status_code == 400
-        assert response.json == {'message': 'Tweets couldnt be loaded'}
+        assert response.json == {'message': 'Error: missing data'}
 
-def test_add_tags_and_tweets_user_not_found(tester):
-    with tester.post("/load/new", json={
-        "user_id": 12440000,
-        "tags": ["test", "test2", "test3"],
-        "tweets": [{
-            'id': 1464209084735963137,
-            'created_at': "Fri Nov 26 12:27:04 +0000 2021",
-            'content': "test tweet",
-            'hashtags': ["#hash", "#tag"],
-            'user_id': 99620272,
-            'user_name': 'twitter_test_user',
-            'tweet_url': 'https://t.co/28WMHvRfS0',
-            'contained_url': 'https://t.co/28WMHvRfG0',
-            'quoted_id': 0,
-            'quoted_user_id': 0,
-            'quoted_hashtags': [],
-            'quoted_user_name': '',
-            'quoted_url': '',
-            'quoted_content': '',
-            'quoted_status_contained_url': ''
-        }]
-        }) as response:
-        assert response.status_code == 400
-        assert response.json == {'message': 'Error: user not found'}
 
 def test_add_tags_and_tweets_no_tweets(tester):
     with tester.post("/load/new", json={
@@ -190,15 +166,15 @@ def test_add_tags_and_tweets_no_tags(tester):
             'user_name': 'twitter_test_user',
             'tweet_url': 'https://t.co/28WMHvRfS0',
             'contained_url': 'https://t.co/28WMHvRfG0',
-            'quoted_id': 0,
-            'quoted_user_id': 0,
+            'quoted_id': 99620272,
+            'quoted_user_id': 99620272,
             'quoted_hashtags': [],
-            'quoted_user_name': '',
-            'quoted_url': '',
-            'quoted_content': '',
-            'quoted_status_contained_url': ''
+            'quoted_user_name': [],
+            'quoted_url': [],
+            'quoted_content': [],
+            'quoted_status_contained_url': []
         }]
         }) as response:
         assert response.status_code == 400
-        assert response.json == {'message': 'No tags were provided'}
+        assert response.json == {'message': 'Tags couldnt be loaded'}
         

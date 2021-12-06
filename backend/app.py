@@ -2,6 +2,8 @@ from flask import Flask, render_template
 from os import getenv
 from dotenv import load_dotenv
 from flask_cors import CORS
+from flask_migrate import Migrate
+from backend.db_helpers import db
 
 def configure_app(app):
     #configurations
@@ -23,9 +25,7 @@ def create_app():
     #create and configure the app
     app = Flask(__name__)
     configure_app(app)
-    
     # get sqlalchemy object and create tables
-    from backend.db_helpers import db
     db.init_app(app)
     with app.app_context():
         db.create_all() 
@@ -43,6 +43,7 @@ def create_app():
 
 FoO = create_app()
 CORS(FoO, origins=[getenv('FRONTEND_URL')], methods=['GET', 'POST'], supports_credentials=True)
+migrate = Migrate(FoO, db)
 
 if __name__ == "__main__":
     FoO.run()

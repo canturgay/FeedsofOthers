@@ -30,6 +30,16 @@ def register():
     except:
         return jsonify(message='An error occured'), 500
 
+@auth_bp.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.get_json()
+        user_id = data['user_id']
+        oauth_access_token = data['oauth_access_token'] 
+        oauth_access_token_secret = data['oauth_access_token_secret']
+    except:
+        return jsonify(message='An error occured'), 500
+
 
 
 

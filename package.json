@@ -2,6 +2,7 @@
   "dependencies": {
     "dotenv": "^10.0.0",
     "es6-promise": "^4.2.8",
-    "pizzly-js": "^0.2.8"
+    "pizzly-js": "^0.2.8",
+    "update": "^0.4.2"
   }
 }

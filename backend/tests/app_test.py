@@ -131,7 +131,7 @@ def test_save_add_tags_and_tweets(tester):
             'quoted_user_name': [],
             'quoted_url': [],
             'quoted_content': [],
-            'quoted_status_contained_url': []
+            'quoted_status_contained_url': [],
             'language': "null"
         }]
         }) as response:

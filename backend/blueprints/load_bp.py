@@ -39,6 +39,7 @@ def add_tweets(tweets, tags):
                 quoted_content = tw['quoted_content'],
                 quoted_url = tw['quoted_url'],
                 quoted_status_contained_url = tw['quoted_status_contained_url'])
+                language = tw['language']
             tweet_tags_dict[tweet] = []
         return add_tags(tags, tweet_tags_dict)
     else:

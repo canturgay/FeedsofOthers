@@ -115,6 +115,7 @@ def test_save_add_tags_and_tweets(tester):
             'quoted_url': [],
             'quoted_content': [],
             'quoted_status_contained_url': []
+            'language': 'en'
         }, {
             'id': 1464209084735963138,
             'created_at': "Fri Nov 26 12:27:04 +0000 2021",
@@ -131,6 +132,7 @@ def test_save_add_tags_and_tweets(tester):
             'quoted_url': [],
             'quoted_content': [],
             'quoted_status_contained_url': []
+            'language': "null"
         }]
         }) as response:
         assert response.status_code == 201

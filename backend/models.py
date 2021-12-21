@@ -47,6 +47,7 @@ class Tweet(base):
     quoted_url = db.Column('quoted_url', db.String(23))
     quoted_content = db.Column('quoted_content', db.String(240))
     quoted_status_contained_url = db.Column('quoted_status_contained_url', db.String(100))
+    language = db.Column('lang', db.String(2), nullable=True)
     tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('tweets', lazy=True))
 
     def __repr__(self):

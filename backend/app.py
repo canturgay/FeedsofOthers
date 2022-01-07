@@ -1,10 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from os import getenv
 from dotenv import load_dotenv
 from flask_cors import CORS
 from flask_migrate import Migrate
 from backend.db_helpers import db
-
+from flask_dance.contrib.twitter import twitter
+from werkzeug.middleware.proxy_fix import ProxyFix
+import backend.models as models
 def configure_app(app):
     #configurations
     load_dotenv()
@@ -26,19 +28,18 @@ def create_app():
     app = Flask(__name__)
     configure_app(app)
     # get sqlalchemy object and create tables
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     db.init_app(app)
     with app.app_context():
         db.create_all() 
 
     #register routes and blueprints
-    from backend.blueprints.auth_bp import auth_bp
     from backend.blueprints.load_bp import load_bp
-    app.register_blueprint(auth_bp)
+    from backend.blueprints.twt_auth_bp import twt_auth_bp
+    app.register_blueprint(twt_auth_bp)
     app.register_blueprint(load_bp)
 
-    @app.route("/", methods=['GET'])
-    def hello_world():
-        return render_template('index.html', page_title='Feeds of Others')
+
     return app
 
 FoO = create_app()

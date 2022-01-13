@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from backend.models import Tweet, Tag, tags
-from backend.db_helpers import db
+from backend.helpers import db
 
 load_bp = Blueprint('load', __name__, url_prefix='/load')
 

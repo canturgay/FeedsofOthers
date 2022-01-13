@@ -1,6 +1,6 @@
-# v-feedsofothers
+# frontend
 
-> clientside spa for feedsofothers
+> A Vue.js project
 
 ## Build Setup
 

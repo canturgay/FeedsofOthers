@@ -1,5 +1,6 @@
-from backend.db_helpers import db, base
+from backend.helpers import db, base
 from flask_dance.consumer.storage.sqla import OAuthConsumerMixin
+from flask_login import UserMixin
 
 
 tags = db.Table('tags',
@@ -7,21 +8,18 @@ db.Column('tag_name', db.String, db.ForeignKey('tag.name'), primary_key=True),
 db.Column('tweet_id', db.BigInteger, db.ForeignKey('tweet.id'), primary_key=True)
 )
 
-class User(base):
+class User(base, UserMixin):
     __tablename__ = 'user'
     id = db.Column('id', db.BigInteger, primary_key=True)
-    oauth_token = db.Column('oauth_token', db.String)
-    oauth_token_secret = db.Column('oauth_token_secret', db.String)
     created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp())
     updated_at = db.Column('updated_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
-    last_sync = db.Column('last_sync', db.TIMESTAMP, default=db.func.current_timestamp())
-    authenticated = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<User %r>' % self.id
 
 class OAuth(OAuthConsumerMixin, base):
-    pass
+    user_id = db.Column(db.BigInteger, db.ForeignKey(User.id))
+    user = db.relationship(User)
    
 
 class Tag(base):

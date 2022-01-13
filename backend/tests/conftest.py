@@ -1,7 +1,7 @@
 from os import environ
 from backend.app import create_app  
+from backend.helpers import db
 import pytest
-from backend.db_helpers import db
 
 environ['FLASK_CONFIGURATION'] = 'testing'
 

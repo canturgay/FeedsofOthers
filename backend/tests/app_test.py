@@ -1,5 +1,4 @@
-from backend import models
-from backend.db_helpers import db
+from backend import helpers, models
 from datetime import datetime
 """
 def test_index(tester):

@@ -1,4 +1,5 @@
 from os import getenv
+import redis
 
 class Config(object):
     TESTING = False
@@ -13,7 +14,11 @@ class Config(object):
     'pool_recycle': 3600,
     'pool_timeout': 10,
     'pool_pre_ping': True
-    } 
+    }
+    SESSION_TYPE = 'redis'
+    SESSION_PERMANENT = False
+    SESSION_USE_SIGNER = True
+    SESSION_REDIS = redis.from_url(getenv('REDIS_URL'))
 
 class devConfig(Config):
     TESTING = True

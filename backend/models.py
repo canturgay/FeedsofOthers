@@ -1,3 +1,4 @@
+from email.policy import default
 from backend.helpers import db, base
 from flask_dance.consumer.storage.sqla import OAuthConsumerMixin
 from flask_login import UserMixin
@@ -11,7 +12,7 @@ db.Column('tweet_id', db.BigInteger, db.ForeignKey('tweet.id'), primary_key=True
 class User(base, UserMixin):
     __tablename__ = 'user'
     id = db.Column('id', db.BigInteger, primary_key=True)
-    created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp())
+    created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     updated_at = db.Column('updated_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
     def __repr__(self):

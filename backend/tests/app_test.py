@@ -1,9 +1,10 @@
-from backend import helpers, models
+from backend import models
+from backend.helpers import db
 from datetime import datetime
-"""
+
 def test_index(tester):
-    with tester.get("/register", content_type="html/text") as response:
-        assert response.status_code == 302
+    with tester.get("/", content_type="html/text") as response:
+        assert response.status_code == 200
 
 def test_db_tables_exists():
     assert db.inspect(models.User) is not None
@@ -18,7 +19,7 @@ def test_declarative_class_matches_db_table():
 
 def test_db_add_user(db_session):
     session = db_session()
-    new_user = models.User(id=123500000, token={cnetKwcTIRlX0iwRl0'}, authenticated=True)
+    new_user = models.User(id=123500000)
     session.add(new_user)
     last = session.query(models.User).order_by(models.User.created_at.desc()).first()
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -26,7 +27,7 @@ def test_db_add_user(db_session):
     assert last == new_user
     assert now == last_created_at
     session.delete(new_user)
-
+"""
 def test_save_add_tags_and_tweets(tester):
     with tester.post("/load/new", json={
         "user_id": 12340000,

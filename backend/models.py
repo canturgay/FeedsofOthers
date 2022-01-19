@@ -14,12 +14,14 @@ class User(base, UserMixin):
     created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     updated_at = db.Column('updated_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     tags = db.Column('tags', db.String)
+    oauth = db.relationship('OAuth', uselist=False, backref='user')
+    
     def __repr__(self):
         return '<User %r>' % self.id
 
 class OAuth(OAuthConsumerMixin, base):
     user_id = db.Column(db.BigInteger, db.ForeignKey(User.id))
-    user = db.relationship(User)
+    user = db.relationship('User', uselist=False backref='oauth')
     
 class Tag(base):
     __tablename__ = 'tag'

@@ -2,8 +2,8 @@ from flask import Flask, render_template
 import requests
 from os import getenv, path
 from dotenv import load_dotenv
-from backend.helpers import db, login_manager
-from backend.models import User
+from helpers import db, login_manager
+from models import User
 from flask_session import Session
 from flask_caching import Cache
 
@@ -11,10 +11,10 @@ def configure_app(app):
     #configurations
     load_dotenv()
     configure = {
-        "development": "backend.config.devConfig",
-        "production": "backend.config.prodConfig",
-        "staging": "backend.config.stageConfig",
-        "testing": "backend.config.testConfig"
+        "development": "config.devConfig",
+        "production": "config.prodConfig",
+        "staging": "config.stageConfig",
+        "testing": "config.testConfig"
     }
     
     #Determine the configuration file to read using environment variables
@@ -30,7 +30,7 @@ def create_app():
     #create and configure the app
     app = Flask(__name__, static_folder=static_dir, template_folder=dist_dir)
     configure_app(app)
-    #app.wsgi_app = ProxyFix(app.wsgi_app)
+    #app.wsgi_app = ProxyFix(app.wsgi_app) // I dont remember why I did this hence commented out
     db.init_app(app)
     with app.app_context():
         db.create_all()
@@ -39,8 +39,9 @@ def create_app():
     cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
     #register routes and blueprints
-    from backend.blueprints.load_bp import load_bp
-    from backend.blueprints.twt_auth_bp import twt_auth_bp
+    from api.load_api import load_bp
+    from api.twt_auth_api import twt_auth_bp
+
     app.register_blueprint(twt_auth_bp, url_prefix='/auth')
     app.register_blueprint(load_bp)
    

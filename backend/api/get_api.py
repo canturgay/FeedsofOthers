@@ -7,7 +7,7 @@ from sqlalchemy.orm.exc import NoResultFound
 get_bp = Blueprint('get', __name__, url_prefix='/get')
 
 
-@get_bp.route('/get')
+@get_bp.route('/')
 @login_required
 def get_tweets_by_tag():
     try:

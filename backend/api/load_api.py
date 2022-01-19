@@ -1,15 +1,14 @@
 from flask import Blueprint, request, jsonify
-from backend.models import Tweet, Tag, tags
-from backend.helpers import db
+from models import Tweet, Tag, tagsTweets
+from helpers import db
 
 load_bp = Blueprint('load', __name__, url_prefix='/load')
 
 @load_bp.route('/new', methods=['POST'])
 def load_new():
     try:
-        data = request.get_json()
-        tags = data['tags']
-        tweets = data['tweets']
+        tags = request.args.get('tags')
+        tweets = request.args.get('tweets')
     except:
         response = jsonify({'message': 'Error: missing data'})
         return response, 400

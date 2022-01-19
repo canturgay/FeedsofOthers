@@ -1,11 +1,10 @@
-from email.policy import default
-from backend.helpers import db, base
+from helpers import db, base
 from flask_dance.consumer.storage.sqla import OAuthConsumerMixin
 from flask_login import UserMixin
 
 
-tags = db.Table('tags',
-db.Column('tag_name', db.String, db.ForeignKey('tag.name'), primary_key=True),
+tagsTweets = db.Table('tagsTweets',
+db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
 db.Column('tweet_id', db.BigInteger, db.ForeignKey('tweet.id'), primary_key=True)
 )
 
@@ -14,22 +13,22 @@ class User(base, UserMixin):
     id = db.Column('id', db.BigInteger, primary_key=True)
     created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     updated_at = db.Column('updated_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
-
+    tags = db.Column('tags', db.String)
     def __repr__(self):
         return '<User %r>' % self.id
 
 class OAuth(OAuthConsumerMixin, base):
     user_id = db.Column(db.BigInteger, db.ForeignKey(User.id))
     user = db.relationship(User)
-   
-
+    
 class Tag(base):
     __tablename__ = 'tag'
-    name = db.Column('name', db.String, primary_key=True)
+    id = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column('name', db.String)
+    tweets = db.relationship('Tweet', secondary=tagsTweets, lazy='subquery' backref=db.backref('tags', lazy='dynamic')) #Read think about lazy
 
     def __repr__(self):
         return '<Tag %r>' % self.id
-
 
 
 class Tweet(base):
@@ -50,7 +49,7 @@ class Tweet(base):
     quoted_content = db.Column('quoted_content', db.String(240))
     quoted_status_contained_url = db.Column('quoted_status_contained_url', db.String(100))
     language = db.Column('lang', db.String(2), nullable=True)
-    tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('tweets', lazy=True))
+    tags = db.relationship('Tag', secondary=tagsTweets, lazy='subquery', backref=db.backref('tweets', lazy='dynamic')) # Read about lazy
 
     def __repr__(self):
         return '<Tweet %r>' % self.id

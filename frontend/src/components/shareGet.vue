@@ -6,8 +6,6 @@
     <button @click="share">Share</button>
     <input v-model="lookup_tag" placeholder="Enter the tag you want to see the feed of">
     <button @click="get">Get</button>
-    <p>{{ self_tags }}</p>
-    <p>{{ self_tweets }}</p>
     <p>{{ gotten_tweets }}</p>
   </div>
 
@@ -43,7 +41,7 @@ export default {
         })
     },
     get () {
-      const path = 'http://127.0.0.1:5000/auth/get'
+      const path = 'http://127.0.0.1:5000/get'
       axios.get(path, {
         params: {
           lookup_tag: this.lookup_tag

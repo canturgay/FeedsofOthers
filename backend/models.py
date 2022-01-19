@@ -14,20 +14,20 @@ class User(base, UserMixin):
     created_at = db.Column('created_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     updated_at = db.Column('updated_at', db.TIMESTAMP,  default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     tags = db.Column('tags', db.String)
-    oauth = db.relationship('OAuth', uselist=False, backref='user')
-    
+    oauth = db.relationship('OAuth', uselist=False)
+
     def __repr__(self):
         return '<User %r>' % self.id
 
 class OAuth(OAuthConsumerMixin, base):
     user_id = db.Column(db.BigInteger, db.ForeignKey(User.id))
-    user = db.relationship('User', uselist=False backref='oauth')
+    user = db.relationship(User, uselist=False)
     
 class Tag(base):
     __tablename__ = 'tag'
     id = db.Column('id', db.Integer, primary_key=True)
     name = db.Column('name', db.String)
-    tweets = db.relationship('Tweet', secondary=tagsTweets, lazy='subquery' backref=db.backref('tags', lazy='dynamic')) #Read think about lazy
+    tweets = db.relationship('Tweet', secondary=tagsTweets, lazy='subquery') #Read think about lazy
 
     def __repr__(self):
         return '<Tag %r>' % self.id
@@ -51,7 +51,7 @@ class Tweet(base):
     quoted_content = db.Column('quoted_content', db.String(240))
     quoted_status_contained_url = db.Column('quoted_status_contained_url', db.String(100))
     language = db.Column('lang', db.String(2), nullable=True)
-    tags = db.relationship('Tag', secondary=tagsTweets, lazy='subquery', backref=db.backref('tweets', lazy='dynamic')) # Read about lazy
+    tags = db.relationship('Tag', secondary=tagsTweets, lazy='subquery') # Read about lazy
 
     def __repr__(self):
         return '<Tweet %r>' % self.id

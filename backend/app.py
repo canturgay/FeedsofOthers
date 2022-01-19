@@ -41,9 +41,11 @@ def create_app():
     #register routes and blueprints
     from api.load_api import load_bp
     from api.twt_auth_api import twt_auth_bp
+    from api.get_api import get_bp 
 
     app.register_blueprint(twt_auth_bp, url_prefix='/auth')
     app.register_blueprint(load_bp)
+    app.register_blueprint(get_bp, url_prefix='/get')
    
     @login_manager.user_loader
     def load_user(user_id):

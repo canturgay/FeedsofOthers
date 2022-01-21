@@ -27,8 +27,8 @@ export default {
   },
   methods: {
     share () {
-      const path = 'http://127.0.0.1:5000/auth/share'
-      axios.get(path, {
+      const path = 'http://127.0.0.1:5000/share/'
+      axios.post(path, {
         params: {
           tags: this.self_tags
         }
@@ -41,7 +41,7 @@ export default {
         })
     },
     get () {
-      const path = 'http://127.0.0.1:5000/get'
+      const path = 'http://127.0.0.1:5000/get/'
       axios.get(path, {
         params: {
           lookup_tag: this.lookup_tag

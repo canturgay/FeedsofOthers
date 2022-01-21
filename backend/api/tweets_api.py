@@ -5,10 +5,10 @@ from models import Tweet, Tag, tagsTweets
 from sqlalchemy.orm.exc import NoResultFound
 import json
 
-get_bp = Blueprint('get', __name__)
+tweets_bp = Blueprint('tweets', __name__)
 
 
-@get_bp.route('/', methods=['GET'])
+@tweets_bp.route('/', methods=['GET'])
 @login_required
 def get_tweets_by_tag():
     try:
